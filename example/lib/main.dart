@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    bajarArchivo().then((f) {
+    createFileOfPdfUrl().then((f) {
       setState(() {
         pathPDF = f.path;
         print(pathPDF);
@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  Future<File> bajarArchivo() async {
+  Future<File> createFileOfPdfUrl() async {
     final url = "http://africau.edu/images/default/sample.pdf";
     final filename = url.substring(url.lastIndexOf("/") + 1);
     var request = await HttpClient().getUrl(Uri.parse(url));

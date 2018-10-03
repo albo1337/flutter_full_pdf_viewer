@@ -1,4 +1,4 @@
-package android.src.main.kotlin.com.alveliu.flutterfullpdfviewer;
+package com.alveliu.flutterfullpdfviewer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,14 +17,14 @@ import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /**
- * PDFViewerPlugin
+ * FlutterFullPdfViewerPlugin
  */
-public class PDFViewerPlugin implements MethodCallHandler, PluginRegistry.ActivityResultListener {
+public class FlutterFullPdfViewerPlugin implements MethodCallHandler, PluginRegistry.ActivityResultListener {
     static MethodChannel channel;
     private Activity activity;
-    private PDFViewerManager pdfViewerManager;
+    private FlutterFullPdfViewerManager flutterFullPdfViewerManager;
 
-    private PDFViewerPlugin(Activity activity) {
+    private FlutterFullPdfViewerPlugin (Activity activity) {
         this.activity = activity;
     }
 
@@ -33,7 +33,7 @@ public class PDFViewerPlugin implements MethodCallHandler, PluginRegistry.Activi
      */
     public static void registerWith(Registrar registrar) {
         channel = new MethodChannel(registrar.messenger(), "flutter_full_pdf_viewer");
-        final PDFViewerPlugin instance = new PDFViewerPlugin(registrar.activity());
+        final FlutterFullPdfViewerPlugin instance = new FlutterFullPdfViewerPlugin(registrar.activity());
         registrar.addActivityResultListener(instance);
         channel.setMethodCallHandler(instance);
     }
@@ -58,27 +58,27 @@ public class PDFViewerPlugin implements MethodCallHandler, PluginRegistry.Activi
 
     private void openPDF(MethodCall call, MethodChannel.Result result) {
         String path = call.argument("path");
-        if (pdfViewerManager == null || pdfViewerManager.closed) {
-            pdfViewerManager = new PDFViewerManager(activity);
+        if (flutterFullPdfViewerManager == null || flutterFullPdfViewerManager.closed) {
+            flutterFullPdfViewerManager = new FlutterFullPdfViewerManager(activity);
         }
         FrameLayout.LayoutParams params = buildLayoutParams(call);
-        activity.addContentView(pdfViewerManager.pdfView, params);
-        pdfViewerManager.openPDF(path);
+        activity.addContentView(flutterFullPdfViewerManager.pdfView, params);
+        flutterFullPdfViewerManager.openPDF(path);
         result.success(null);
     }
 
     private void resize(MethodCall call, final MethodChannel.Result result) {
-        if (pdfViewerManager != null) {
+        if (flutterFullPdfViewerManager != null) {
             FrameLayout.LayoutParams params = buildLayoutParams(call);
-            pdfViewerManager.resize(params);
+            flutterFullPdfViewerManager.resize(params);
         }
         result.success(null);
     }
 
     private void close(MethodCall call, MethodChannel.Result result) {
-        if (pdfViewerManager != null) {
-            pdfViewerManager.close(call, result);
-            pdfViewerManager = null;
+        if (flutterFullPdfViewerManager != null) {
+            flutterFullPdfViewerManager.close(call, result);
+            flutterFullPdfViewerManager = null;
         }
     }
 
@@ -106,6 +106,6 @@ public class PDFViewerPlugin implements MethodCallHandler, PluginRegistry.Activi
 
     @Override
     public boolean onActivityResult(int i, int i1, Intent intent) {
-        return pdfViewerManager != null;
+        return flutterFullPdfViewerManager != null;
     }
 }

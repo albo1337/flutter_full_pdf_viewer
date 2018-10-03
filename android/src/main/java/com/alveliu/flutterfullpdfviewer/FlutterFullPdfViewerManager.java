@@ -1,4 +1,4 @@
-package android.src.main.kotlin.com.alveliu.flutterfullpdfviewer;
+package com.alveliu.flutterfullpdfviewer;
 
 import android.app.Activity;
 import android.view.ViewGroup;
@@ -12,15 +12,15 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 
 /**
- * PDFViewerManager
+ * FlutterFullPdfViewerManager
  */
-class PDFViewerManager {
+class FlutterFullPdfViewerManager {
 
     boolean closed = false;
     PDFView pdfView;
     Activity activity;
 
-    PDFViewerManager(final Activity activity) {
+    FlutterFullPdfViewerManager (final Activity activity) {
         this.pdfView = new PDFView(activity, null);
         this.activity = activity;
     }
@@ -50,7 +50,7 @@ class PDFViewerManager {
         }
 
         closed = true;
-        PDFViewerPlugin.channel.invokeMethod("onDestroy", null);
+        FlutterFullPdfViewerPlugin.channel.invokeMethod("onDestroy", null);
     }
 
     void close() {

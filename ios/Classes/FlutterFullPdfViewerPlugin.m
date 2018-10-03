@@ -1,11 +1,11 @@
 @import UIKit;
 
-#import "PDFViewerPlugin.h"
+#import "FlutterFullPdfViewerPlugin.h"
 
-@interface PDFViewerPlugin ()
+@interface FlutterFullPdfViewerPlugin ()
 @end
 
-@implementation PDFViewerPlugin{
+@implementation FlutterFullPdfViewerPlugin{
     FlutterResult _result;
     UIViewController *_viewController;
     UIWebView *_webView;
@@ -18,7 +18,7 @@
     
     UIViewController *viewController = [UIApplication sharedApplication].delegate.window.rootViewController;
     
-    PDFViewerPlugin *instance = [[PDFViewerPlugin alloc] initWithViewController:viewController];
+    FlutterFullPdfViewerPlugin *instance = [[FlutterFullPdfViewerPlugin alloc] initWithViewController:viewController];
     
     [registrar addMethodCallDelegate:instance channel:channel];
 }

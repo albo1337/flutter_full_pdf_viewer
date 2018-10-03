@@ -3,7 +3,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_full_pdf_viewer'
-  s.version          = '1.0.0'
+  s.version          = '1.0.1'
   s.summary          = 'A fully functional on both platforms pdf viewer.'
   s.description      = <<-DESC
 A new Flutter plugin.
