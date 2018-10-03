@@ -1,6 +1,6 @@
-# flutter_full_pdf_viewer
+# flutter_full_pdf_viewer -> The pdf viewer for flutter
 
-A new Flutter plugin.
+Android and iOS working pdf viewer!
 
 # Use this package as a library
 
