@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 
 import java.io.File;
 // import java.lang.Integer;
@@ -15,7 +16,7 @@ import io.flutter.plugin.common.MethodChannel;
 /**
  * FlutterFullPdfViewerManager
  */
-class FlutterFullPdfViewerManager {
+class FlutterFullPdfViewerManager implements OnPageChangeListener{
 
     boolean closed = false;
     PDFView pdfView;
@@ -31,7 +32,7 @@ class FlutterFullPdfViewerManager {
     @Override
     public void onPageChanged(int page, int pageCount) {
         pageNumber = page;
-        setTitle(String.format("%s %s / %s", pdfFileName, page + 1, pageCount));
+        activity.setTitle(String.format("%s %s / %s", "pdfFileName", page + 1, pageCount));
     }
 
 
@@ -53,13 +54,13 @@ class FlutterFullPdfViewerManager {
     }
 
     int setPage(int page){
-        pageNumber = pdfView.setPage(page);
-        // pageNumber = page;
+        pdfView.jumpTo(page);
+        pageNumber = page;
         return pageNumber;
     }
 
     int getPage(){
-        return pdfView.getPage();
+        return pdfView.getCurrentPage();
         // return pageNumber; // could always return pageNumber if setting is working
     }
 
