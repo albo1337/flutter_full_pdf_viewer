@@ -1,4 +1,4 @@
-# flutter_full_pdf_viewer -> The pdf viewer for flutter
+# PDF viewer for flutter
 
 Android and iOS working pdf viewer!
 
@@ -10,7 +10,7 @@ Add this to your package's pubspec.yaml file:
 
 ```
 dependencies:
-  flutter_full_pdf_viewer: ^1.0.2
+  flutter_full_pdf_viewer: ^1.0.3
 ```
 
 
