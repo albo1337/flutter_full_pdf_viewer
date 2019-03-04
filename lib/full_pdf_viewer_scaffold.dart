@@ -24,8 +24,6 @@ class _PDFViewScaffoldState extends State<PDFViewerScaffold> {
   final pdfViwerRef = new PDFViewerPlugin();
   Rect _rect;
   Timer _resizeTimer;
-  int pageNumber;
-  int pageCount;
 
   @override
   void initState() {
