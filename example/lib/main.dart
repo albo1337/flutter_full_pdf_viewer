@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class PDFScreen extends StatelessWidget {
-  String pathPDF = "";
+  final String pathPDF;
   PDFScreen(this.pathPDF);
 
   @override
