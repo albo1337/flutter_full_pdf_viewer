@@ -47,15 +47,23 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Plugin example app')),
       body: Center(
-        child: RaisedButton(
-          child: Text("Open PDF"),
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => PDFScreen(pathPDF)),
-          ),
-        ),
+        child: FutureBuilder(
+          future: createFileOfPdfUrl(),
+          builder: (i,snapshot){
+            if(snapshot.connectionState==ConnectionState.waiting)
+                return CircularProgressIndicator();
+            else
+              return Center(
+                child: RaisedButton(
+                  child: Text("Open PDF"),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PDFScreen(pathPDF)),
+                  ),
+                ),
+              );
+          }),
       ),
     );
   }
