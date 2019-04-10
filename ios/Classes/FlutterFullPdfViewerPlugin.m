@@ -16,6 +16,60 @@
     #define isIOSAbove4 ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0)
 }
 
+// @interface CaptionViewController () <UIScrollViewDelegate>
+
+
+
+
+// #pragma UIScrollViewDelegate
+// -(void)scrollViewDidScroll:(UIScrollView *)scrollView
+// {
+//     // if pdfPageHeight is -1 it needs to be calculated
+//     if(_pdfPageHeight == -1)
+//     {
+//         // the page height is calculated by taking the overall size of the UIWebView scrollView content size
+//         // then dividing it by the number of pages Core Graphics reported for the PDF file being shown
+//         CGFloat contentHeight = _webView.scrollView.contentSize.height;
+//          _pdfPageHeight = contentHeight / _pageCount;
+//         // also calculate what half the screen height is. no sense in doing this multiple times.
+//         _halfScreenHeight = (_webView.frame.size.height / 2);
+//     }
+//     // to calculate the page number, first get how far the user has scrolled
+//     float verticalContentOffset = _webView.scrollView.contentOffset.y;
+//     // next add the halfScreenHeight then divide the result by the guesstimated pdfPageHeight
+//     _pageNumber = ceilf((verticalContentOffset + _halfScreenHeight) / _pdfPageHeight);
+//     _pageNumber = 10;
+    
+//     // finally set the text of the page counter label
+//     // self.pageLabel.text 
+//     // _webView.label = [NSString stringWithFormat:@"%d of %d", _pageNumber, _pageCount];
+//     _viewController.title = [NSString stringWithFormat:@"%d of %d", _pageNumber, _pageCount];
+// }
+// @end
+
+// class ViewController: UIViewController, UIScrollViewDelegate{
+
+// //In viewDidLoad Set delegate method to self.
+
+// @IBOutlet var mainScrollView: UIScrollView!
+
+// override func viewDidLoad() {
+//     super.viewDidLoad()
+
+//     self.mainScrollView.delegate = self
+
+// }
+// //And finally you implement the methods you want your class to get.
+// func scrollViewDidScroll(_ scrollView: UIScrollView!) {
+//     // This will be called every time the user scrolls the scroll view with their finger
+//     // so each time this is called, contentOffset should be different.
+
+//     print(self.mainScrollView.contentOffset.y)
+
+//     //Additional workaround here.
+// }
+// }
+
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
     FlutterMethodChannel* channel = [FlutterMethodChannel
                                      methodChannelWithName:@"flutter_full_pdf_viewer"
@@ -90,7 +144,7 @@
             NSDictionary *rect = call.arguments[@"rect"];
             int page =[[rect valueForKey:@"page"] doubleValue];
             page = [self setPage:page];
-            result([@"" stringByAppendingString:[NSString stringWithFormat:@"%i", [self getPage]+1]]); 
+            result([@"" stringByAppendingString:[NSString stringWithFormat:@"%i", page]]); 
         } else
         result(nil);    
     } else if ([@"resize" isEqualToString:call.method]) {
@@ -121,9 +175,9 @@
         _halfScreenHeight = (_webView.frame.size.height / 2);
     }
     /*which page? u want to go ?*/  /*how many pages?*/
-    if (page< _pageCount)
+    if (page<= _pageCount)
     {
-        float y =  _pdfPageHeight/*page Hight*/ * page++;
+        float y =  _pdfPageHeight/*page Hight*/ * (page-1);
 
         if (isIOSAbove4)
         {
@@ -134,13 +188,28 @@
             [_webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollTo(0.0, %f)", y]];
         }
     }
-    _pageNumber = page-1;
+    _pageNumber = page;
     NSLog( @"setPage: '%i'", _pageNumber );
 
     return _pageNumber;
 }
 
 - (int)getPage {
+    // if pdfPageHeight is -1 it needs to be calculated
+    if(_pdfPageHeight == -1)
+    {
+        // the page height is calculated by taking the overall size of the UIWebView scrollView content size
+        // then dividing it by the number of pages Core Graphics reported for the PDF file being shown
+        CGFloat contentHeight = _webView.scrollView.contentSize.height;
+         _pdfPageHeight = contentHeight / _pageCount;
+        // also calculate what half the screen height is. no sense in doing this multiple times.
+        _halfScreenHeight = (_webView.frame.size.height / 2);
+    }
+    // to calculate the page number, first get how far the user has scrolled
+    float verticalContentOffset = _webView.scrollView.contentOffset.y;
+    // next add the halfScreenHeight then divide the result by the guesstimated pdfPageHeight
+    _pageNumber = ceilf((verticalContentOffset + _halfScreenHeight) / _pdfPageHeight) -1;
+    // _pageNumber = 10;
     return _pageNumber;
 }
 
