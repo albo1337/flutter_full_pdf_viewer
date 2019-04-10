@@ -41,19 +41,56 @@ public class FlutterFullPdfViewerPlugin implements MethodCallHandler, PluginRegi
     @Override
     public void onMethodCall(MethodCall call, Result result) {
         switch (call.method) {
-            case "launch":
-                openPDF(call, result);
-                break;
-            case "resize":
-                resize(call, result);
-                break;
-            case "close":
-                close(call, result);
-                break;
-            default:
-                result.notImplemented();
-                break;
+        case "launch":
+            openPDF(call, result);
+            break;
+        case "resize":
+            resize(call, result);
+            break;
+        case "getPageCount":
+            getPageCount(call, result);
+            break;
+        case "getPage":
+            getPage(call, result);
+            break;
+        case "setPage":
+            setPage(call, result);
+            break;
+        case "close":
+            close(call, result);
+            break;
+        default:
+            result.notImplemented();
+            break;
         }
+    }
+
+    public int getPageCount(MethodCall call, final MethodChannel.Result result) {
+        int page = -1;
+        if (flutterFullPdfViewerManager != null) {
+            page = flutterFullPdfViewerManager.getPageCount();
+        }
+        result.success(Integer.toString(page));
+        return page;
+    }
+
+    public int getPage(MethodCall call, final MethodChannel.Result result) {
+        int page = -1;
+        if (flutterFullPdfViewerManager != null) {
+            page = flutterFullPdfViewerManager.getPage() + 1;
+        }
+        result.success(Integer.toString(page));
+        return page;
+    }
+
+    public int setPage(MethodCall call, final MethodChannel.Result result) {
+        Map<String, Number> rc = call.argument("rect");
+        int page = -1;
+        if (flutterFullPdfViewerManager != null) {
+            page = flutterFullPdfViewerManager.setPage(rc.get("page").intValue()-1) + 1;
+        }
+        result.success(Integer.toString(page));
+        return page;
     }
 
     private void openPDF(MethodCall call, MethodChannel.Result result) {

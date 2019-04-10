@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 enum PDFViewState { shouldStart, startLoad, finishLoad }
 
 class PDFViewerPlugin {
-  final _channel = const MethodChannel("flutter_full_pdf_viewer");
+  static const _channel = const MethodChannel("flutter_full_pdf_viewer");
   static PDFViewerPlugin _instance;
 
   factory PDFViewerPlugin() => _instance ??= new PDFViewerPlugin._();
@@ -36,6 +36,41 @@ class PDFViewerPlugin {
       };
     }
     await _channel.invokeMethod('launch', args);
+  }
+
+  static Future<int> get getPageCount async {
+    final String pageCount = await _channel.invokeMethod('getPageCount');
+    print("pagecount: "+ pageCount.toString());
+    return int.parse(pageCount);
+  }
+
+  static Future<int> get getPage async {
+
+    String page = "-1";
+    try {
+      page = await _channel.invokeMethod('getPage');
+      print("page: "+page);
+    } catch (e) {
+      print(e.toString());
+    }
+    
+    return int.parse(page);
+  }
+
+  static Future<int> setPage(int currPage) async {
+    final args = {};
+    args['rect'] = {
+      'page': currPage
+    };
+    String page = "-1";
+    try {
+      page = await _channel.invokeMethod('setPage', args);
+      print(" set page: " + page);
+    } catch (e) {
+      print(e.toString());
+    }
+    
+    return int.parse(page);
   }
 
   /// Close the PDFViewer
