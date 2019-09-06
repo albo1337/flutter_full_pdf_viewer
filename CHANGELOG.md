@@ -1,3 +1,6 @@
+## 1.0.5
+Added WKWebView because UIWebView has been deprecated by Apple.
+
 ## 1.0.4
 Removed pagelogic which was not working on iOS.
 
