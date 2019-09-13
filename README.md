@@ -10,7 +10,7 @@ Add this to your package's pubspec.yaml file:
 
 ```
 dependencies:
-  flutter_full_pdf_viewer: ^1.0.5
+  flutter_full_pdf_viewer: ^1.0.6
 ```
 
 

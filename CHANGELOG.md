@@ -1,3 +1,6 @@
+## 1.0.6
+Bugfix for iOS. PDFs will now be shown also on physical devices
+
 ## 1.0.5
 Added WKWebView because UIWebView has been deprecated by Apple.
 
