@@ -57,11 +57,18 @@
         
         if (_webView == nil){
             _webView = [[WKWebView alloc] initWithFrame:rc];
-            //_webView.scalesPageToFit = true;
             
             NSURL *targetURL = [NSURL fileURLWithPath:path];
-            NSURLRequest *request = [NSURLRequest requestWithURL:targetURL];
-            [_webView loadRequest:request];
+
+            if (@available(iOS 9.0, *)) {
+                [_webView loadFileURL:targetURL allowingReadAccessToURL:targetURL];
+            } else {
+                // untested.
+                _webView.scalesPageToFit = true;
+                NSURLRequest *request = [NSURLRequest requestWithURL:targetURL];
+                [_webView loadRequest:request];
+            }
+
             
             [_viewController.view addSubview:_webView];
         }
