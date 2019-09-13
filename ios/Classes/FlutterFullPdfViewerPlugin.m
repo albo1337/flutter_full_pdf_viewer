@@ -64,7 +64,7 @@
                 [_webView loadFileURL:targetURL allowingReadAccessToURL:targetURL];
             } else {
                 // untested.
-                _webView.scalesPageToFit = true;
+                // _webView.scalesPageToFit = true;
                 NSURLRequest *request = [NSURLRequest requestWithURL:targetURL];
                 [_webView loadRequest:request];
             }
