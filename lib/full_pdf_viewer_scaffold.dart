@@ -17,11 +17,11 @@ class PDFViewerScaffold extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PDFViewScaffoldState createState() => new _PDFViewScaffoldState();
+  _PDFViewScaffoldState createState() => _PDFViewScaffoldState();
 }
 
 class _PDFViewScaffoldState extends State<PDFViewerScaffold> {
-  final pdfViwerRef = new PDFViewerPlugin();
+  final pdfViwerRef = PDFViewerPlugin();
   Rect _rect;
   Timer _resizeTimer;
 
@@ -51,7 +51,7 @@ class _PDFViewScaffoldState extends State<PDFViewerScaffold> {
       if (_rect != rect) {
         _rect = rect;
         _resizeTimer?.cancel();
-        _resizeTimer = new Timer(new Duration(milliseconds: 300), () {
+        _resizeTimer = Timer(new Duration(milliseconds: 300), () {
           pdfViwerRef.resize(_rect);
         });
       }
@@ -73,6 +73,6 @@ class _PDFViewScaffoldState extends State<PDFViewerScaffold> {
       height = 0.0;
     }
 
-    return new Rect.fromLTWH(0.0, top, mediaQuery.size.width, height);
+    return Rect.fromLTWH(0.0, top, mediaQuery.size.width, height);
   }
 }
