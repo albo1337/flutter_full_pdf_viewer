@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
     var response = await request.close();
     var bytes = await consolidateHttpClientResponseBytes(response);
     String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = new File('$dir/$filename');
+    File file = new File('$dir/$filename.pdf');
     await file.writeAsBytes(bytes);
     return file;
   }
