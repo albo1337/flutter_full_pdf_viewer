@@ -8,7 +8,6 @@
 
 @implementation FlutterFullPdfViewerPlugin{
     FlutterResult _result;
-    UIViewController *_viewController;
     WKWebView *_webView;
 }
 
@@ -17,19 +16,9 @@
                                      methodChannelWithName:@"flutter_full_pdf_viewer"
                                      binaryMessenger:[registrar messenger]];
     
-    UIViewController *viewController = [UIApplication sharedApplication].delegate.window.rootViewController;
-    
-    FlutterFullPdfViewerPlugin *instance = [[FlutterFullPdfViewerPlugin alloc] initWithViewController:viewController];
+    FlutterFullPdfViewerPlugin *instance = [[FlutterFullPdfViewerPlugin alloc] init];
     
     [registrar addMethodCallDelegate:instance channel:channel];
-}
-
-- (instancetype)initWithViewController:(UIViewController *)viewController {
-    self = [super init];
-    if (self) {
-        _viewController = viewController;
-    }
-    return self;
 }
 
 - (CGRect)parseRect:(NSDictionary *)rect {
@@ -69,8 +58,23 @@
                 [_webView loadRequest:request];
             }
 
+            // Fix iOS 13 get KeyWindow's way & delay get rootViewController to avoid not initialize
+            UIViewController *viewController = nil;
+            if (@available(iOS 13.0, *)) {
+                UIWindow        *foundWindow = nil;
+                NSArray         *windows = [[UIApplication sharedApplication] windows];
+                for (UIWindow   *window in windows) {
+                    if (window.isKeyWindow) {
+                        foundWindow = window;
+                        break;
+                    }
+                }
+                viewController = foundWindow.rootViewController;
+            } else {
+                viewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+            }
             
-            [_viewController.view addSubview:_webView];
+            [viewController.view addSubview:_webView];
         }
         
     } else if ([@"resize" isEqualToString:call.method]) {
