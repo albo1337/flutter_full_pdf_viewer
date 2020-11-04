@@ -71,7 +71,7 @@
                 }
                 viewController = foundWindow.rootViewController;
             } else {
-                viewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+                viewController = (UIViewController*)[[[UIApplication sharedApplication] keyWindow] rootViewController];
             }
             
             [viewController.view addSubview:_webView];
