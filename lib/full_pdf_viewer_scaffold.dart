@@ -6,12 +6,14 @@ import 'package:flutter_full_pdf_viewer/full_pdf_viewer_plugin.dart';
 
 class PDFViewerScaffold extends StatefulWidget {
   final PreferredSizeWidget appBar;
+  final PreferredSizeWidget bottomNavigationBar;
   final String path;
   final bool primary;
 
   const PDFViewerScaffold({
     Key key,
     this.appBar,
+    this.bottomNavigationBar,
     @required this.path,
     this.primary = true,
   }) : super(key: key);
@@ -58,17 +60,23 @@ class _PDFViewScaffoldState extends State<PDFViewerScaffold> {
     }
     return new Scaffold(
         appBar: widget.appBar,
+        bottomNavigationBar: widget.bottomNavigationBar,
         body: const Center(child: const CircularProgressIndicator()));
   }
 
   Rect _buildRect(BuildContext context) {
-    final fullscreen = widget.appBar == null;
+    final shouldOffsetTop = widget.appBar != null;
+    final shouldOffsetBottom = widget.bottomNavigationBar != null;
 
     final mediaQuery = MediaQuery.of(context);
     final topPadding = widget.primary ? mediaQuery.padding.top : 0.0;
+    final bottomPadding = widget.primary ? mediaQuery.padding.bottom : 0.0;
     final top =
-    fullscreen ? 0.0 : widget.appBar.preferredSize.height + topPadding;
+    shouldOffsetTop ? widget.appBar.preferredSize.height + topPadding : 0.0;
     var height = mediaQuery.size.height - top;
+    if (shouldOffsetBottom) {
+      height = height - widget.bottomNavigationBar.preferredSize.height - bottomPadding;
+    }
     if (height < 0.0) {
       height = 0.0;
     }
