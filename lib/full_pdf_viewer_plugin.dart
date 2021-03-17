@@ -8,15 +8,18 @@ enum PDFViewState { shouldStart, startLoad, finishLoad }
 
 class PDFViewerPlugin {
   final _channel = const MethodChannel("flutter_full_pdf_viewer");
-  static PDFViewerPlugin _instance;
+  static PDFViewerPlugin? _instance;
 
-  factory PDFViewerPlugin() => _instance ??= new PDFViewerPlugin._();
+  factory PDFViewerPlugin() => _instance ??= PDFViewerPlugin._();
+
   PDFViewerPlugin._() {
     _channel.setMethodCallHandler(_handleMessages);
   }
 
-  final _onDestroy = new StreamController<Null>.broadcast();
+  final _onDestroy = StreamController<Null>.broadcast();
+
   Stream<Null> get onDestroy => _onDestroy.stream;
+
   Future<Null> _handleMessages(MethodCall call) async {
     switch (call.method) {
       case 'onDestroy':
@@ -25,7 +28,7 @@ class PDFViewerPlugin {
     }
   }
 
-  Future<Null> launch(String path, {Rect rect}) async {
+  Future<Null> launch(String path, {Rect? rect}) async {
     final args = <String, dynamic>{'path': path};
     if (rect != null) {
       args['rect'] = {

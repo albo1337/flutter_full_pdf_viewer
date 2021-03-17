@@ -33,7 +33,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<File> createFileOfPdfUrl() async {
-    final url = "http://africau.edu/images/default/sample.pdf";
+    final url =
+        "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf";
     final filename = url.substring(url.lastIndexOf("/") + 1);
     var request = await HttpClient().getUrl(Uri.parse(url));
     var response = await request.close();
@@ -49,7 +50,7 @@ class _MyAppState extends State<MyApp> {
     return Scaffold(
       appBar: AppBar(title: const Text('Plugin example app')),
       body: Center(
-        child: RaisedButton(
+        child: ElevatedButton(
           child: Text("Open PDF"),
           onPressed: () => Navigator.push(
             context,
@@ -62,7 +63,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class PDFScreen extends StatelessWidget {
-  String pathPDF = "";
+  final String pathPDF;
   PDFScreen(this.pathPDF);
 
   @override
