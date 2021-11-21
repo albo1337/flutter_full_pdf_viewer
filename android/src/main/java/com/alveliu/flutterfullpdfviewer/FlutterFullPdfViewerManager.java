@@ -1,6 +1,7 @@
 package com.alveliu.flutterfullpdfviewer;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
@@ -18,11 +19,9 @@ class FlutterFullPdfViewerManager {
 
     boolean closed = false;
     PDFView pdfView;
-    Activity activity;
 
-    FlutterFullPdfViewerManager (final Activity activity) {
-        this.pdfView = new PDFView(activity, null);
-        this.activity = activity;
+    FlutterFullPdfViewerManager (final Context context) {
+        this.pdfView = new PDFView(context, null);
     }
 
     void openPDF(String path) {
