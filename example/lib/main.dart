@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
     var response = await request.close();
     var bytes = await consolidateHttpClientResponseBytes(response);
     String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = new File('$dir/$filename');
+    File file = new File('$dir/$filename.pdf');
     await file.writeAsBytes(bytes);
     return file;
   }
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
     return Scaffold(
       appBar: AppBar(title: const Text('Plugin example app')),
       body: Center(
-        child: RaisedButton(
+        child: ElevatedButton(
           child: Text("Open PDF"),
           onPressed: () => Navigator.push(
             context,
@@ -63,7 +63,8 @@ class _MyAppState extends State<MyApp> {
 }
 
 class PDFScreen extends StatelessWidget {
-  String pathPDF = "";
+  final String pathPDF;
+
   PDFScreen(this.pathPDF);
 
   @override

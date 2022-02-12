@@ -8,7 +8,7 @@ enum PDFViewState { shouldStart, startLoad, finishLoad }
 
 class PDFViewerPlugin {
   final _channel = const MethodChannel("flutter_full_pdf_viewer");
-  static PDFViewerPlugin _instance;
+  static PDFViewerPlugin? _instance;
 
   factory PDFViewerPlugin() => _instance ??= new PDFViewerPlugin._();
   PDFViewerPlugin._() {
@@ -25,7 +25,7 @@ class PDFViewerPlugin {
     }
   }
 
-  Future<Null> launch(String path, {Rect rect}) async {
+  Future<Null> launch(String path, {Rect? rect}) async {
     final args = <String, dynamic>{'path': path};
     if (rect != null) {
       args['rect'] = {
