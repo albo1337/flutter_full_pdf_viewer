@@ -33,13 +33,14 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<File> createFileOfPdfUrl() async {
-    final url = "http://africau.edu/images/default/sample.pdf";
+    final url =
+        "https://firebasestorage.googleapis.com/v0/b/sikh-notes.appspot.com/o/purwqn%20inhMg%20isMGw%CB%86%20dI%20gurIlw%20Xu%60DnIqI%405%400%40Puratan%20Nihang%20Singha%20Di%20Gurella%20Yudhniti.pdf?alt=media&token=e4d04dfa-a21b-4ddd-8647-86fa43392f51";
     final filename = url.substring(url.lastIndexOf("/") + 1);
     var request = await HttpClient().getUrl(Uri.parse(url));
     var response = await request.close();
     var bytes = await consolidateHttpClientResponseBytes(response);
     String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = new File('$dir/$filename');
+    File file = new File('$dir/$filename.pdf');
     await file.writeAsBytes(bytes);
     return file;
   }
@@ -49,7 +50,7 @@ class _MyAppState extends State<MyApp> {
     return Scaffold(
       appBar: AppBar(title: const Text('Plugin example app')),
       body: Center(
-        child: RaisedButton(
+        child: ElevatedButton(
           child: Text("Open PDF"),
           onPressed: () => Navigator.push(
             context,
@@ -62,7 +63,8 @@ class _MyAppState extends State<MyApp> {
 }
 
 class PDFScreen extends StatelessWidget {
-  String pathPDF = "";
+  final String pathPDF;
+
   PDFScreen(this.pathPDF);
 
   @override
